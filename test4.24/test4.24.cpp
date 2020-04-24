@@ -50,6 +50,7 @@ int main()
 	waitKey();
 }
 
+
 void getHist(Mat srcMat, float * hist, int nX, int nY, int cellsize)
 {
 	Mat gx, gy;
@@ -57,12 +58,12 @@ void getHist(Mat srcMat, float * hist, int nX, int nY, int cellsize)
 	Sobel(srcMat, gx, CV_32F, 1, 0, 1);
 	Sobel(srcMat, gy, CV_32F, 0, 1, 1);
 	cartToPolar(gx, gy, mag, angle, true);
-	for (int i = 0; i < nY * 16; i++)
+	for (int i = 0; i < nY * cellsize; i++)
 	{
-		for (int j = 0; j < nX * 16; j++)
+		for (int j = 0; j < nX * cellsize; j++)
 		{
 			int angle_q = angle.at<float>(i, j) / 45;
-			*(hist + (j / cellsize * nX + i / cellsize) * 8 + angle_q) += mag.at<float>(i, j);
+			*(hist + (i / cellsize * nX + j / cellsize) * 8 + angle_q) += mag.at<float>(i, j); 
 		}
 	}
 }
